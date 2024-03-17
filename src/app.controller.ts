@@ -7,7 +7,9 @@ export class AppController {
 
   @Get()
   @Render('index')
-  index() {
-    
-  }
+  index() {}
+
+  @Get('cadastarPessoa')
+  @Render('cadastro_pessoa')
+  cadastro_pessoa(){}
 }
