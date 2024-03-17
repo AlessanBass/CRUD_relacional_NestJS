@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model endereco {
+  id_endereco      Int    @default(autoincrement())
+  rua              String @db.VarChar(45)
+  bairro           String @db.VarChar(45)
+  pessoa_id_pessoa Int
+  pessoa           pessoa @relation(fields: [pessoa_id_pessoa], references: [id_pessoa], onDelete: NoAction, onUpdate: NoAction, map: "fk_endereco_pessoa")
+
+  @@id([id_endereco, pessoa_id_pessoa])
+  @@index([pessoa_id_pessoa], map: "fk_endereco_pessoa_idx")
+}
+
+model pessoa {
+  id_pessoa Int        @id @unique(map: "id_pessoa_UNIQUE") @default(autoincrement())
+  nome      String     @db.VarChar(45)
+  senha     String     @db.VarChar(45)
+  endereco  endereco[]
+}
